@@ -1,2 +1,2 @@
 # django-rest-api
-A django-rest-api for people with deadlines
+A REST api written in Django for people with deadlines
