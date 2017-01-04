@@ -9,4 +9,4 @@ class BucketlistSerializer(serializers.ModelSerializer):
         """Map this serializer to a model and their fields."""
         model = Bucketlist
         fields = ('name', 'date_created', 'date_modified')
-        read_only_fields = ('date_created' 'date_modified')
+        read_only_fields = ('date_created', 'date_modified')
