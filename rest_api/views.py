@@ -12,7 +12,7 @@ class CreateView(generics.ListCreateAPIView):
         serializer.save()
 
 
-class UpdateView(generics.RetrieveUpdateDestroyAPIView):
+class DetailsView(generics.RetrieveUpdateDestroyAPIView):
     """This class defines the reading, updating and deletion behaviors."""
 
     queryset = Bucketlist.objects.all()
