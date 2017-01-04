@@ -6,10 +6,12 @@ from django.contrib.auth.models import User
 class BucketlistSerializer(serializers.ModelSerializer):
     """Serializer to map the model instance into json format."""
 
+    owner = serializers.ReadOnlyField(source='owner.username')
+
     class Meta:
         """Map this serializer to a model and their fields."""
         model = Bucketlist
-        fields = ('name', 'date_created', 'date_modified')
+        fields = ('name', 'owner', 'date_created', 'date_modified')
         read_only_fields = ('date_created', 'date_modified')
 
 
