@@ -1,5 +1,6 @@
 from django.test import TestCase
 from rest_framework.test import APIClient
+from rest_framework import status
 from django.core.urlresolvers import reverse
 
 
@@ -30,9 +31,27 @@ class ViewTestCase(TestCase):
         """Define the test client and other test variables."""
         self.client = APIClient()
         self.bucketlist_data = {'name': 'Go to Ibiza'}
-        self.bucketlist = Bucketlist(name=self.name)
 
     def test_api_can_create_a_bucketlist(self):
         """Test the api has bucket creation capability."""
-        response = self.client.post(reverse('create'), self.bucketlist_data)
-        self.assertEqual(response.status_code, 201)
+        response = self.client.post(
+            reverse('create'),
+            self.bucketlist_data,
+            format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        bucketlist = Bucketlist.objects.get()
+        self.assertIsNotNone(bucketlist)
+
+    def test_api_can_get_a_bucketlist(self):
+        """Test the api can update a given bucketlist."""
+        self.client.post(
+            reverse('create'),
+            self.bucketlist_data,
+            format='json')
+        bucketlist = Bucketlist.objects.get()
+        response = self.client.get(
+            reverse('details'),
+            kwargs={'pk': bucketlist.id}, format=="json")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertContains(response, bucketlist, status.HTTP_200_OK)
