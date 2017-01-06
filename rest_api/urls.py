@@ -12,7 +12,7 @@ urlpatterns = {
     url(r'^users/$', UserView.as_view(), name="users"),
     url(r'users/(?P<pk>[0-9]+)/$',
         UserDetailsView.as_view(), name="user_details"),
-    url(r'^api-token-auth/', obtain_auth_token),
+    url(r'^get-token/', obtain_auth_token),
 }
 
 urlpatterns = format_suffix_patterns(urlpatterns)
