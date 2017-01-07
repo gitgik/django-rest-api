@@ -1,15 +1,15 @@
 from rest_framework import generics, permissions
-from .permissions import OwnerOrReadOnly
+from .permissions import IsOwnerOrReadOnly
 from .serializers import BucketlistSerializer, UserSerializer
 from .models import Bucketlist
 from django.contrib.auth.models import User
 
 
 class CreateView(generics.ListCreateAPIView):
-    """This class defines the create behavior of our rest api."""
+    """This class handles the GET and POSt requests of our rest api."""
     queryset = Bucketlist.objects.all()
     serializer_class = BucketlistSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, OwnerOrReadOnly)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
 
     def perform_create(self, serializer):
         """Save the post data when creating a new bucketlist."""
@@ -17,11 +17,11 @@ class CreateView(generics.ListCreateAPIView):
 
 
 class DetailsView(generics.RetrieveUpdateDestroyAPIView):
-    """This class defines the reading, updating and deletion behaviors."""
+    """This class handles GET, PUT, PATCH and DELETE requests."""
 
     queryset = Bucketlist.objects.all()
     serializer_class = BucketlistSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, OwnerOrReadOnly)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
 
 
 class UserView(generics.ListAPIView):
