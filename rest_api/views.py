@@ -9,7 +9,9 @@ class CreateView(generics.ListCreateAPIView):
     """This class handles the GET and POSt requests of our rest api."""
     queryset = Bucketlist.objects.all()
     serializer_class = BucketlistSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+        IsOwnerOrReadOnly)
 
     def perform_create(self, serializer):
         """Save the post data when creating a new bucketlist."""
@@ -21,7 +23,9 @@ class DetailsView(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Bucketlist.objects.all()
     serializer_class = BucketlistSerializer
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+    permission_classes = (
+        permissions.IsAuthenticatedOrReadOnly,
+        IsOwnerOrReadOnly)
 
 
 class UserView(generics.ListAPIView):
