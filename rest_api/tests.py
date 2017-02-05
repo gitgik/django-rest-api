@@ -13,6 +13,7 @@ class ModelTestCase(TestCase):
         """Define the test client and other test variables."""
         user = User.objects.create(username="nerd")
         self.name = "Write world class code"
+        # specify owner of a bucketlist
         self.bucketlist = Bucketlist(name=self.name, owner=user)
 
     def test_model_can_create_a_bucketlist(self):
