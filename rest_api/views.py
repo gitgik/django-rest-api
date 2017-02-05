@@ -10,7 +10,7 @@ class CreateView(generics.ListCreateAPIView):
     queryset = Bucketlist.objects.all()
     serializer_class = BucketlistSerializer
     permission_classes = (
-        permissions.IsAuthenticatedOrReadOnly,
+        permissions.IsAuthenticated,
         IsOwnerOrReadOnly)
 
     def perform_create(self, serializer):
