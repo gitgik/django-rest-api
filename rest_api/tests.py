@@ -33,8 +33,11 @@ class ViewTestCase(TestCase):
     def setUp(self):
         """Define the test client and other test variables."""
         user = User.objects.create(username="nerd")
+
+        # Initialize client and force it to use authentication
         self.client = APIClient()
         self.client.force_authenticate(user=user)
+
         self.bucketlist_data = {'name': 'Go to Ibiza', 'owner': user.id}
         self.response = self.client.post(
             reverse('create'),
