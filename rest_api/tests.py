@@ -3,6 +3,7 @@ from rest_framework.test import APIClient
 from rest_framework import status
 from django.core.urlresolvers import reverse
 from .models import Bucketlist
+from django.contrib.auth.models import User
 
 
 class ModelTestCase(TestCase):
@@ -10,8 +11,9 @@ class ModelTestCase(TestCase):
 
     def setUp(self):
         """Define the test client and other test variables."""
+        user = User.objects.create(username="nerd")
         self.name = "Write world class code"
-        self.bucketlist = Bucketlist(name=self.name)
+        self.bucketlist = Bucketlist(name=self.name, owner=user)
 
     def test_model_can_create_a_bucketlist(self):
         """Test the bucketlist model can create a bucketlist."""
@@ -30,8 +32,10 @@ class ViewTestCase(TestCase):
 
     def setUp(self):
         """Define the test client and other test variables."""
+        user = User.objects.create(username="nerd")
         self.client = APIClient()
-        self.bucketlist_data = {'name': 'Go to Ibiza'}
+        self.client.force_authenticate(user=user)
+        self.bucketlist_data = {'name': 'Go to Ibiza', 'owner': user.id}
         self.response = self.client.post(
             reverse('create'),
             self.bucketlist_data,
@@ -43,9 +47,9 @@ class ViewTestCase(TestCase):
 
     def test_api_can_get_a_bucketlist(self):
         """Test the api can get a given bucketlist."""
-        bucketlist = Bucketlist.objects.get()
+        bucketlist = Bucketlist.objects.get(id=1)
         response = self.client.get(
-            reverse('details'),
+            '/bucketlists/',
             kwargs={'pk': bucketlist.id}, format="json")
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -53,6 +57,7 @@ class ViewTestCase(TestCase):
 
     def test_api_can_update_bucketlist(self):
         """Test the api can update a given bucketlist."""
+        bucketlist = Bucketlist.objects.get()
         change_bucketlist = {'name': 'Something new'}
         res = self.client.put(
             reverse('details', kwargs={'pk': bucketlist.id}),
