@@ -23,9 +23,17 @@ class ModelTestCase(TestCase):
         new_count = Bucketlist.objects.count()
         self.assertNotEqual(old_count, new_count)
 
+    def test_is_owner_enforcement(self):
+        """Test that the api has authorization."""
+        new_user = User.objects.create(username="aaa")
+        bucketlist = Bucketlist.objects.filter(owner=new_user)
+        self.assertEquals(bucketlist.count(), 0)
+
     def test_model_returns_readable_representation(self):
         """Test a readable string is returned for the model instance."""
         self.assertEqual(str(self.bucketlist), self.name)
+
+
 
 
 class ViewTestCase(TestCase):
@@ -77,5 +85,4 @@ class ViewTestCase(TestCase):
             reverse('details', kwargs={'pk': bucketlist.id}),
             format='json',
             follow=True)
-
         self.assertEquals(response.status_code, status.HTTP_204_NO_CONTENT)
