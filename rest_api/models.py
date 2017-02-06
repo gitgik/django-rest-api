@@ -1,6 +1,10 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+from rest_framework.authtoken.models import Token
+from django.conf import settings
 
 
 class Bucketlist(models.Model):
@@ -16,3 +20,9 @@ class Bucketlist(models.Model):
     def __str__(self):
         """Return a human readable representation of the model instance."""
         return "{}".format(self.name)
+
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
