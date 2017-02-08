@@ -23,12 +23,6 @@ class ModelTestCase(TestCase):
         new_count = Bucketlist.objects.count()
         self.assertNotEqual(old_count, new_count)
 
-    def test_is_owner_enforcement(self):
-        """Test that the api has authorization."""
-        new_user = User.objects.create(username="aaa")
-        bucketlist = Bucketlist.objects.filter(owner=new_user)
-        self.assertEquals(bucketlist.count(), 0)
-
     def test_model_returns_readable_representation(self):
         """Test a readable string is returned for the model instance."""
         self.assertEqual(str(self.bucketlist), self.name)
@@ -57,6 +51,12 @@ class ViewTestCase(TestCase):
     def test_api_can_create_a_bucketlist(self):
         """Test the api has bucket creation capability."""
         self.assertEqual(self.response.status_code, status.HTTP_201_CREATED)
+
+    def test_authorization_is_enforced(self):
+        """Test that the api has user authorization."""
+        new_client = APIClient()
+        res = new_client.get('/bucketlists/', kwargs={'pk': 3}, format="json")
+        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_api_can_get_a_bucketlist(self):
         """Test the api can get a given bucketlist."""
