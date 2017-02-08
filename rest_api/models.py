@@ -4,7 +4,7 @@ from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from rest_framework.authtoken.models import Token
-from django.conf import settings
+from django.contrib.auth.models import User
 
 
 class Bucketlist(models.Model):
@@ -22,7 +22,7 @@ class Bucketlist(models.Model):
         return "{}".format(self.name)
 
 # This receiver handles token creation when a new user is created.
-@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+@receiver(post_save, sender=User)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
