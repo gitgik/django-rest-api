@@ -28,9 +28,7 @@ class ModelTestCase(TestCase):
         self.assertEqual(str(self.bucketlist), self.name)
 
 
-
-
-class ViewTestCase(TestCase):
+class ViewsTestCase(TestCase):
     """Test suite for the api views."""
 
     def setUp(self):
