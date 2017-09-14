@@ -92,3 +92,6 @@ ENV/
 # sqlite
 *.sqlite3
 db.sqlite3
+
+# ignore habitat results folder
+results/
