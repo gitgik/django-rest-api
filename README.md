@@ -7,7 +7,7 @@ A REST api written in Django for people with deadlines
 
 
 ## Installation
-* If you wish to run your own build, first ensure you have python globally installed in your computer. If not, you can get python [here](https://www.python.org").
+* If you wish to run your own build, first ensure you have python globally installed in your computer. If not, you can get python [here](https://www.python.org).
 * After doing this, confirm that you have installed virtualenv globally as well. If not, run this:
     ```bash
         $ pip install virtualenv
